@@ -1,6 +1,8 @@
 import java.util.Set;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Class Room - a room in an adventure game.
@@ -20,7 +22,7 @@ public class Room
 {
     private String description;
     private HashMap<String, Room> exits;        // stores exits of this room.
-    private Item item;
+    private List<Item> items;
 
     /**
      * Create a room described "description". Initially, it has
@@ -32,22 +34,36 @@ public class Room
     {
         this.description = description;
         exits = new HashMap<>();
+        items = new ArrayList<>();
+
+    }
+    
+    /**
+     * Adds an item to the room.
+     * @param item The item to add to the room.
+     */
+    public void addItem(Item item) {
+        items.add(item);
     }
     
     /**
      * Sets the item in the room.
      * @param item The item to set in the room.
      */
-    public void setItem(Item item) {
-        this.item = item;
-    }
+    //public void setItem(Item item) {
+    //    this.item = item;
+    //}
+    /*  Since I've modified the Room to allow multiple items,
+    *   I don't need the setItem method anymore because it was
+    *   used to set a single item in the room.
+    */
     
     /**
      * Gets the item in the room.
      * @return The item in the room.
      */
-    public Item getItem() {
-        return item;
+    public List<Item> getItems() {
+        return items;
     }
     
     /**
@@ -77,11 +93,15 @@ public class Room
      */
     public String getLongDescription() {
         String desc = "You are " + description + ".\n" + getExitString();
-        if (item != null) {
-            desc += "\nThere is a " + item.getDescription() + " here.";
+        if (!items.isEmpty()) {
+            desc += "\nItems:";
+            for (Item item : items) {
+                desc += "\n- " + item.getDescription();
+            }
         }
         return desc;
     }
+
 
     /**
      * Return a string describing the room's exits, for example
