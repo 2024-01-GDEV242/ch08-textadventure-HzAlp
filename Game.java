@@ -19,6 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Room previousRoom; // New field to store the previous room
         
     /**
      * Create the game and initialise its internal map.
@@ -91,6 +92,21 @@ public class Game
         System.out.println(currentRoom.getLongDescription());
     }
 
+    
+    /**
+     * Handles the "back" command, which moves the player back to the previous room.
+     */
+    private void back() {
+        if (previousRoom != null) {
+            Room temp = currentRoom;
+            currentRoom = previousRoom;
+            previousRoom = temp;
+            System.out.println(currentRoom.getLongDescription());
+        } else {
+            System.out.println("You can't go back any further.");
+        }
+    }
+    
     /**
      * Given a command, process (that is: execute) the command.
      * @param command The command to be processed.
@@ -126,6 +142,10 @@ public class Game
             case EAT:
                 eat();
                 break;
+                
+            case BACK:
+                back();
+                break;   
         }
         return wantToQuit;
     }
@@ -182,6 +202,8 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            // Update previousRoom before changing currentRoom
+            previousRoom = currentRoom;
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }

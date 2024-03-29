@@ -53,7 +53,12 @@ public class Parser
             }
         }
 
-        return new Command(commands.getCommandWord(word1), word2);
+        CommandWord commandWord = commands.getCommandWord(word1);
+        if (commandWord == CommandWord.UNKNOWN) {
+            return new Command(CommandWord.UNKNOWN, word1);
+        } else {
+            return new Command(commandWord, word2);
+        }
     }
 
     /**
