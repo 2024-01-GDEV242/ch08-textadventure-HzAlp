@@ -118,11 +118,24 @@ public class Game
             case QUIT:
                 wantToQuit = quit(command);
                 break;
+                
             case LOOK:
                 look();
                 break;
+                
+            case EAT:
+                eat();
+                break;
         }
         return wantToQuit;
+    }
+    
+    /**
+     * Handles the "eat" command, which prints a message indicating that the player has eaten.
+     */
+    private void eat() 
+    {
+        System.out.println("You have eaten now and you are not hungry anymore.");
     }
     
     /**
