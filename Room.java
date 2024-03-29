@@ -32,7 +32,7 @@ public class Room
         this.description = description;
         exits = new HashMap<>();
     }
-
+    
     /**
      * Define an exit from this room.
      * @param direction The direction of the exit.
@@ -87,6 +87,15 @@ public class Room
     public Room getExit(String direction) 
     {
         return exits.get(direction);
+    }
+    
+    /**
+     * Returns a description of the room.
+     * @return A description of the room.
+     */
+    public String getRoomDescription()
+    {
+        return description;
     }
 }
 

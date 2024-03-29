@@ -118,10 +118,20 @@ public class Game
             case QUIT:
                 wantToQuit = quit(command);
                 break;
+            case LOOK:
+                look();
+                break;
         }
         return wantToQuit;
     }
-
+    
+    /**
+     * Displays the long description of the current room.
+     */
+    private void look() 
+    {
+        System.out.println(currentRoom.getLongDescription());
+    }
     // implementations of user commands:
 
     /**
