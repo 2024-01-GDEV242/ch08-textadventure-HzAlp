@@ -1,3 +1,6 @@
+import java.util.Stack;
+
+
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -19,8 +22,9 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-    private Room previousRoom; // New field to store the previous room
-        
+    //private Room previousRoom; // New field to store the previous room
+    private Stack<Room> roomHistory;
+    
     /**
      * Create the game and initialise its internal map.
      */
@@ -28,6 +32,8 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        roomHistory = new Stack<>();
+
     }
 
     /**
@@ -96,15 +102,28 @@ public class Game
     /**
      * Handles the "back" command, which moves the player back to the previous room.
      */
-    private void back() {
-        if (previousRoom != null) {
-            Room temp = currentRoom;
-            currentRoom = previousRoom;
-            previousRoom = temp;
-            System.out.println(currentRoom.getLongDescription());
-        } else {
-            System.out.println("You can't go back any further.");
+    private void back(Command command) {
+        int steps = 1;
+        
+        if (command.hasSecondWord()) {
+            try {
+                steps = Integer.parseInt(command.getSecondWord());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid number of steps.");
+                return;
+            }
         }
+        
+        for (int i = 0; i < steps; i++) {
+            if (!roomHistory.isEmpty()) {
+                currentRoom = roomHistory.pop();
+            } else {
+                System.out.println("You can't go back any further.");
+                break;
+            }
+        }
+        System.out.println(currentRoom.getLongDescription());
+        
     }
     
     /**
@@ -144,7 +163,7 @@ public class Game
                 break;
                 
             case BACK:
-                back();
+                back(command);
                 break;   
         }
         return wantToQuit;
@@ -187,13 +206,12 @@ public class Game
      */
     private void goRoom(Command command) 
     {
-        if(!command.hasSecondWord()) {
-            // if there is no second word, we don't know where to go...
+        String direction = command.getSecondWord();
+
+        if (direction == null) {
             System.out.println("Go where?");
             return;
         }
-
-        String direction = command.getSecondWord();
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
@@ -202,8 +220,8 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
-            // Update previousRoom before changing currentRoom
-            previousRoom = currentRoom;
+            // Update room history before changing currentRoom
+            roomHistory.push(currentRoom);
             currentRoom = nextRoom;
             System.out.println(currentRoom.getLongDescription());
         }
