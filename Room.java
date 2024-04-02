@@ -47,6 +47,14 @@ public class Room
     }
     
     /**
+     * Removes an item to the room.
+     * @param item The item to remove to the room.
+     */
+        public void removeItem(Item item) {
+        items.remove(item);
+    }
+    
+    /**
      * Sets the item in the room.
      * @param item The item to set in the room.
      */

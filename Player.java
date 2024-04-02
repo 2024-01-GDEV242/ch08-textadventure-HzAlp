@@ -1,10 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
+/**
+ * Represents the player in the game. The player can move between rooms, pick up and
+ * drop items, and interact with the game world.
+ */
 public class Player {
 
     private Room currentRoom;
+    private List<Item> inventory; // List to store items in the player's inventory
 
-    // Constructor to initialize the player's starting room
+    /**
+     * Constructor for creating a player with a starting room.
+     * @param startingRoom The room where the player starts.
+     */
     public Player(Room startingRoom) {
       this.currentRoom = startingRoom;
+      this.inventory = new ArrayList<>();
+      
     }
 
     // Getter method to access the player's current room
@@ -20,5 +32,36 @@ public class Player {
 
             currentRoom = nextRoom;
         }
+    }
+    
+ 
+    
+    /**
+     * Drops an item from the player's inventory and adds it to the current room.
+     * @param itemName The name of the item to drop.
+     */
+    public void dropItem(String itemName) {
+        Item item = getItem(itemName);
+        if (item != null) {
+            inventory.remove(item);
+            currentRoom.addItem(item);
+            System.out.println("You dropped the " + itemName + ".");
+        } else {
+            System.out.println("You don't have a " + itemName + " to drop.");
+        }
+    }
+    
+    /**
+     * Retrieves an item from the player's inventory.
+     * @param itemName The name of the item to retrieve.
+     * @return The item if found, null otherwise.
+     */
+    private Item getItem(String itemName) {
+        for (Item item : inventory) {
+            if (item.getDescription().equalsIgnoreCase(itemName)) {
+                return item;
+            }
+        }
+        return null;
     }
 }
