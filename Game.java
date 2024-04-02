@@ -22,6 +22,8 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
+    private Player player; // New field to store the player object
+
     //private Room previousRoom; // New field to store the previous room
     private Stack<Room> roomHistory;
     
@@ -109,8 +111,9 @@ public class Game
         
         lab2.setExit("east", courtyard);
         
-        
         currentRoom = outside;  // start game outside
+        // Initialize the player object with a starting room (e.g., outside)
+        player = new Player(outside);
     }
 
     /**
@@ -259,19 +262,20 @@ public class Game
             return;
         }
 
-        // Try to leave current room.
-        Room nextRoom = currentRoom.getExit(direction);
+        // Try to leave current room using player object
+        Room nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
         else {
             // Update room history before changing currentRoom
-            roomHistory.push(currentRoom);
-            currentRoom = nextRoom;
-            System.out.println(currentRoom.getLongDescription());
+            roomHistory.push(player.getCurrentRoom());
+            player.moveToRoom(direction); // Call player method to move (step 3 will define this method)
+            System.out.println(player.getCurrentRoom().getLongDescription());
         }
     }
+
 
     /** 
      * "Quit" was entered. Check the rest of the command to see
