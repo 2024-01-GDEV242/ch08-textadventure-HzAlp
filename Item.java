@@ -9,7 +9,8 @@ public class Item
 {
     private String description;
     private int weight;
-    
+    private boolean isPickedUp; // New field to track if the item is picked up
+
     /**
      * Creates a new item with the given description and weight.
      * @param description The description of the item.
@@ -18,6 +19,8 @@ public class Item
     public Item(String description, int weight) {
         this.description = description;
         this.weight = weight;
+        this.isPickedUp = false; // Initialize as not picked up
+
     }
     
     /**
@@ -35,6 +38,11 @@ public class Item
     public int getWeight() {
         return weight;
     }
+    
+    // New getter method for the isPickedUp flag
+    public boolean getIsPickedUp() {
+        return isPickedUp;
+  }
     
     
 }
