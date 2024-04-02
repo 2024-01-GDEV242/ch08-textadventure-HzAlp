@@ -41,8 +41,11 @@ public class Game
      */
     private void createRooms()
     {
-        Room outside, theater, pub, lab, office;
-      
+        Room outside, theater, pub, lab, office,park, cafeteria, library,
+        gym, dormitory, courtyard, hallway, classroom1, classroom2, lab2;
+        
+        
+          
         // create the rooms
         outside = new Room("outside the main entrance of the university");
         theater = new Room("in a lecture theater");
@@ -50,20 +53,63 @@ public class Game
         lab = new Room("in a computing lab");
         office = new Room("in the computing admin office");
         
+        // create the rooms
+        outside = new Room("outside the main entrance of the university");
+        theater = new Room("in a lecture theater");
+        pub = new Room("in the campus pub");
+        lab = new Room("in a computing lab");
+        office = new Room("in the computing admin office");
+        park = new Room("in the campus park");
+        cafeteria = new Room("in the university cafeteria");
+        library = new Room("in the university library");
+        gym = new Room("in the university gym");
+        dormitory = new Room("in the student dormitory");
+        courtyard = new Room("in the university courtyard");
+        hallway = new Room("in a hallway");
+        classroom1 = new Room("in a classroom");
+        classroom2 = new Room("in another classroom");
+        lab2 = new Room("in another computing lab"); 
+            
+        
+        
         // initialise room exits
         outside.setExit("east", theater);
         outside.setExit("south", lab);
         outside.setExit("west", pub);
-
+    
         theater.setExit("west", outside);
-
+    
         pub.setExit("east", outside);
-
+    
         lab.setExit("north", outside);
         lab.setExit("east", office);
-
+    
         office.setExit("west", lab);
-
+        
+        lab.setExit("west", courtyard);
+        courtyard.setExit("east", lab);
+        courtyard.setExit("north", park);
+        courtyard.setExit("south", hallway);
+        courtyard.setExit("west", library);
+        
+        park.setExit("south", courtyard);
+        
+        hallway.setExit("north", courtyard);
+        hallway.setExit("east", gym);
+        hallway.setExit("west", cafeteria);
+        
+        cafeteria.setExit("east", hallway);
+        
+        gym.setExit("west", hallway);
+        
+        library.setExit("east", courtyard);
+        library.setExit("north", dormitory);
+        
+        dormitory.setExit("south", library);
+        
+        lab2.setExit("east", courtyard);
+        
+        
         currentRoom = outside;  // start game outside
     }
 
